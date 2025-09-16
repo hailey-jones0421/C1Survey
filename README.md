@@ -4,7 +4,7 @@ This repository includes the Class 1 survey dataset and R code used to
 analyze it. The project is part of an exercise to practice working with real-
 world data in R. As the last part of this assigment, I performed a chi-squared 
 test to determine Is there is a  statistically significant relationship between 
-the item an individual would bring on a deserted island and if they like dogs?
+the item an individual would bring on a deserted island and if they like dogs.
 The degrees of freedom were 4. The p-value is 0.644 and not less than 0.05. 
 Therefore, I failed to reject the null hypothesis. There was not a statistically
 significant relationship between the item they type of item an individual 

@@ -1,0 +1,281 @@
+---
+Title: "C1 Survey Lab"
+Output: html_document
+Date: "2025-08-27"
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## R Markdown
+
+This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
+
+When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
+
+```{r, chunk1}
+##Installing tidyverse
+library(tidyverse)
+```
+
+
+```{r, chunk2, message=FALSE}
+## Importing class one survey data (C1Survey) from Github
+C1Survey <-
+ read_csv(
+   "https://github.com/kijohnson/Advanced-Data-Analysis/raw/refs/heads/main/Class%201%20Survey%20Fall%202025%202.csv"
+   )
+```
+
+
+```{r, chunk3, message=TRUE}
+##Determining the number of observations and the number of variables in the dataframe
+dim(C1Survey)
+```
+
+
+```{r, chunk4}
+##Renaming the column variables
+C1Survey <- C1Survey %>%
+
+rename_with(~ c("id", "like_cats", "like_dogs", "have_desert", "slogan", "fav_day",
+"larkORowl", "fav_food", "fav_drink", "fav_season", "fav_month",
+"hobby", "program", "specialization", "stat_software", "R_exp",
+"coding_comfort", "coding_length", "top_three", "public_health_interest",
+"fav_num", "bday", "bmonth", "country", "state", "city",
+"highest_educ_level"),
+.cols = 1:27)
+```
+
+
+```{r, chunk5, message = TRUE}
+##Displaying the number of factor, integer, numberical, and character varaibles in C1Survey
+
+df <- C1Survey
+
+# Get the class of each column
+variable_classes <- sapply(df, class)
+
+# In case a column has multiple classes (e.g., c("ordered", "factor")), take the first
+variable_classes <- sapply(variable_classes, function(x) x[1])
+
+# Count number of each type
+num_factors    <- sum(variable_classes == "factor")
+num_integers   <- sum(variable_classes == "integer")
+num_numerics   <- sum(variable_classes == "numeric")
+num_characters <- sum(variable_classes == "character")
+
+# Display the results
+cat("Number of factor variables:   ", num_factors, "\n")
+cat("Number of integer variables:  ", num_integers, "\n")
+cat("Number of numeric variables:  ", num_numerics, "\n")
+cat("Number of character variables:", num_characters, "\n")
+
+```
+
+```{r, chunk6}
+## Creating table to check the bday variables
+
+table(C1Survey$bday, useNA = "always")
+```
+
+```{r, chunk8}
+
+##Recoding birthday days to numbers
+C1Survey <- C1Survey %>%
+
+mutate(bday = if_else(bday =="August 2nd 1997", "2", bday)) %>%
+mutate(bday = if_else(bday =="June 2nd", "2", bday)) %>%
+mutate(bday = if_else(bday =="24-Jun", "24", bday)) %>%
+mutate(bday = if_else(bday =="15-Nov", "2", bday))
+
+##Checking variable
+C1Survey$bday 
+
+```
+
+```{r, chunk9}
+## Creating table to check the bday variables
+
+table(C1Survey$bmonth, useNA = "always")
+```
+
+
+```{r, chunk10}
+##Recoding months to numbers
+C1Survey <- C1Survey %>%
+
+mutate(bmonth = if_else(bmonth =="October", "10", bmonth)) %>%
+mutate(bmonth = if_else(bmonth =="Septemeber", "9", bmonth)) %>%
+mutate(bmonth = if_else(bmonth =="August", "8", bmonth)) %>%
+mutate(bmonth = if_else(bmonth =="December", "12", bmonth)) %>%
+mutate(bmonth = if_else(bmonth =="January", "1", bmonth)) %>%
+mutate(bmonth = if_else(bmonth == "june", "6", bmonth)) %>%
+mutate(bmonth = if_else(bmonth == "June", "6", bmonth)) %>%
+mutate(bmonth = if_else(bmonth == "May", "5", bmonth))%>%
+mutate(bmonth = if_else(bmonth == "November", "11", bmonth))
+
+
+
+##Checking variable
+C1Survey$bmonth 
+```
+
+```{r, chunk11, echo=TRUE, warning=FALSE}
+
+# Converting bday variable to numeric
+C1Survey$bday_n <- as.numeric(C1Survey$bday)
+
+# check the class of the new numeric bday variable
+class(C1Survey$bday_n)
+
+
+# Converting bmonth variable to numeric
+C1Survey$bmonth_n <- as.numeric(C1Survey$bmonth)
+
+# check the class of the new numeric bmonth variable
+class(C1Survey$bmonth_n)
+```
+
+```{r, chunk12}
+
+# Getting mean of bday_n varibles
+mean(C1Survey$bday_n, na.rm=TRUE) 
+
+# Getting mean of bmonth_n varibles
+mean(C1Survey$bmonth_n, na.rm=TRUE) 
+
+```
+
+```{r, chunk13}
+
+## Creating bseason [Winter=12/1 through 2/29, Spring 3/1 through 5/31, Summer 6/1 through 8/31, Fall 9/1 through 11/30]
+C1Survey <- C1Survey %>%
+  
+ mutate(bseason = case_when(bmonth_n <= 2 | bmonth_n ==12 ~ 1,
+                            bmonth_n <= 5 ~ 2,
+                            bmonth_n <=8 ~ 3,
+                            bmonth_n <=11 ~ 4))
+
+##Checking what kind of variable bseason variable is
+class(C1Survey$bseason) 
+
+#Changing bseason variable from numeric to factor
+
+C1Survey$bseason_fac <- factor(C1Survey$bseason, levels=c(1,2,3,4), 
+              labels = c("Winter", "Spring", "Summer", "Fall")) 
+
+##Checking that the bseason_fac variable is factor
+class(C1Survey$bseason_fac) 
+```
+
+```{r, chunk14}
+
+##Creating a function table of bseason_fac
+
+table(C1Survey$bseason_fac, useNA = "always") 
+
+```
+
+
+```{r, chunk15}
+
+## Creating a table of have_desert responses
+# 
+# table(C1Survey$have_desert, useNA = "always")
+
+## Determining what kind of variable have_desert is 
+class(C1Survey$have_desert)
+
+## Creating categorical variable desert_item 
+C1Survey <- C1Survey %>%
+  
+ mutate(desert_item = case_when(have_desert == 'A boat'| have_desert == 'Boat' | have_desert == 'Plane' |     have_desert == 'Wings' |have_desert == 'An escape boat. If you won\'t allow that, books'  ~ 1,
+                                
+have_desert == 'a device that could produce water endlessly.' |have_desert == 'atmospheric water generator' | have_desert == 'bottle of fresh water' | have_desert == 'Clean water'| have_desert == 'Very Big bottle of water' | have_desert == 'water' | have_desert == 'Water purification system'|have_desert == 'Water' | have_desert == 'Water filter!' ~ 2,
+
+
+have_desert == 'A Dog' | have_desert == 'A friend'| have_desert == 'internet' | have_desert == 'my phone' | have_desert == 'My phone' |have_desert == 'Phone Network'| have_desert == 'My phone ofc' | have_desert == 'Telephone'| have_desert == 'satellite phone' ~ 3,
+
+have_desert == 'Bible' | have_desert == 'My Bible' | have_desert == "The Bible" |have_desert == 'Quran' ~ 4,
+
+have_desert == 'compass' | have_desert == 'Compass' | have_desert == 'fishing pole' | have_desert == 'lighter'|
+  have_desert == 'Matches' |have_desert == 'My emergency tool kit' | have_desert == 'Regional field guide for the island'| have_desert == 'Solar charged battery'|have_desert == 'Swiss army knife' | have_desert == 'Umbrela'~ 5
+
+
+# have_desert == 'notebook with a pen' | have_desert == 'My kindle' | have_desert == 'Rstudio' | have_desert == 'Sketchbook & pens'~ 6
+))
+
+
+#Changing desert_item variable from character to factor
+
+C1Survey$desert_item_fac <- factor(C1Survey$desert_item, levels=c(1,2,3,4,5), 
+              labels = c("Escape", "Hydration", "Connection", "Religious", "Survival Tools")) 
+
+##Checking that the bseason_fac variable is factor
+class(C1Survey$desert_item_fac) 
+
+##Creating a function table of desert_item_fac
+
+table(C1Survey$desert_item_fac, useNA = "always") 
+
+```
+
+```{r, chunk16}
+
+##Checking to see what kind of variable like_dogs is
+class(C1Survey$like_dogs)
+# Creating a table of have_desert responses
+
+table(C1Survey$like_dogs, useNA = "always")
+
+## Creating categorical variable dogs_YN 
+C1Survey <- C1Survey %>%
+  
+ mutate(dogs_YN = case_when(like_dogs == 'Ambivalent'| like_dogs == 'No' ~ 1,
+                                
+like_dogs == 'Yes' ~ 2))
+
+#Changing dogs_YN variable from character to factor
+
+C1Survey$dogs_YN_fac <- factor(C1Survey$dogs_YN, levels=c(1,2), 
+              labels = c("No", "Yes")) 
+
+##Checking that the bseason_fac variable is factor
+class(C1Survey$dogs_YN_fac) 
+
+##Creating a function table of desert_item_fac
+
+table(C1Survey$dogs_YN_fac, useNA = "always") 
+
+```
+
+```{r, chunk17}
+
+##Is there a statistically significant relationship between the item an individual would bring on a deserted island and whether or not they like dogs?
+
+
+### Creating a contingency table
+desert_dog <- table (C1Survey$dogs_YN_fac, C1Survey$desert_item_fac)
+
+###Running a chi-squared test
+chisq.test(desert_dog)
+
+##Since the p-value is 0.644 and not less than 0.05, we fail to reject the null hypothesis. There is not a statistically significant relationship between the item an indivudal would bring on a deserted isleand and whether or not they like dogs.
+
+
+```
+
+```{r, chunk 18}
+## Writing data to CSV
+write.csv(C1Survey, file = "Cleaned_C1Survey.csv")
+
+```
+
+
+
+
+
+
+

@@ -1,8 +1,11 @@
 # Class 1 Survey Data Analysis
 ## Project Description
 This repository includes the Class 1 survey dataset and R code used to
-analyze it. The project is part of an exercise to practice working with real-
-world data in R. 
+analyze it. The Class 1 Survey dataset was provided to Master of Public Health 
+students who are enrolled in Advanced Data Analysis. Students were asked various
+questions relating to there personality, preferences, and personal history. 
+There were 58 responses and 37 questions. The project is part of 
+an exercise to practice working with real-world data in R. 
 
 As the last part of this assigment, I performed a chi-squared 
 test to determine if there is a  statistically significant relationship between 

@@ -24,7 +24,7 @@ would bring on a deserted isleand and whether or not they like dogs.
 - Creates summary statistics (e.g., age, gender, responses)
 - Generates plots to visualize the data
 
-  For the project
+  For the project:
   - Creates a categorical variable based on responses to survey question about what an individual would bring on an island.
   - Creates binomial variable based on survey question about whether an individual likes dogs.
   - Performs chi-squared test to determine if there is a statistically signficant relationship betweeen the kind of item

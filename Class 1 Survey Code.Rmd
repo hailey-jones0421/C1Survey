@@ -253,7 +253,8 @@ table(C1Survey$dogs_YN_fac, useNA = "always")
 
 ```{r, chunk17}
 
-##Is there a statistically significant relationship between the item an individual would bring on a deserted island and whether or not they like dogs?
+##Is there a statistically significant relationship between the item an individual would bring on a 
+deserted island and whether or not they like dogs?
 
 
 ### Creating a contingency table
@@ -262,7 +263,8 @@ desert_dog <- table (C1Survey$dogs_YN_fac, C1Survey$desert_item_fac)
 ###Running a chi-squared test
 chisq.test(desert_dog)
 
-##Since the p-value is 0.644 and not less than 0.05, we fail to reject the null hypothesis. There is not a statistically significant relationship between the item an indivudal would bring on a deserted isleand and whether or not they like dogs.
+##Since the p-value is 0.644 and not less than 0.05, we fail to reject the null hypothesis. There is not a statistically 
+significant relationship between the item an indivudal would bring on a deserted isleand and whether or not they like dogs.
 
 
 ```

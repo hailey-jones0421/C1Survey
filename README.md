@@ -10,8 +10,8 @@ an exercise to practice working with real-world data in R.
 As the last part of this assigment, I performed a chi-squared 
 test to determine if there is a  statistically significant relationship between 
 the item an individual would bring on a deserted island and if they like dogs.
-There were five kinds of items an individual could have identified that they would bring on an island: An item for escaping the island 
-("Escape"), Something to maintain hydration ("Hydration", some form of connection ("Connection"), 
+There were five kinds of items an individual could have identified that they would bring on an island: an means by which
+to escape the island ("Escape"), something to maintain hydration ("Hydration", some form of connection ("Connection"), 
 a religious text ("Religious"), or tools for survival ("Survival tools").
 For this chi-squared model, there were 4 degrees of freedom. The p-value is 0.644 and,
 therefore, not less than 0.05. I failed to reject the null hypothesis. There was not a statistically
